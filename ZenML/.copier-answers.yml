@@ -1,0 +1,8 @@
+# Changes here will be overwritten by Copier
+_commit: 2024.09.23
+_src_path: gh:zenml-io/template-starter
+email: cristian.mascia@unina.it
+full_name: ZenML GmbH
+open_source_license: mit
+project_name: ZenML Starter
+version: 0.1.0
