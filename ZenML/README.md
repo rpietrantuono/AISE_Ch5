@@ -1,3 +1,5 @@
+Adapted from https://lightning.ai/htahir1/studios/zenml-end-to-end-example
+
 # :running: MLOps 101 with ZenML
 
 Build your first MLOps pipelines with ZenML.
