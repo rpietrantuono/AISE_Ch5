@@ -65,39 +65,56 @@ Log in to the registry before pushing or pulling container images
 Before deploying a container app, we need an application to deploy. The 'flakeexample' directory provides a skeleton application that returns a list of random numbers when requested for a forecast.
 
 
-Docker containers are instantiated from Docker images. A Docker image, defined by a Dockerfile, is a portable executable file that contains everything needed to run a container. It can be shared and distributed like a software binary. 
-The flakeexample directory contains the Dockerfile for building the Docker image. 
+Here’s the updated documentation with separate build commands for general use and for MacOS with Apple Silicon, written in Markdown:
 
-```
-  cd flakeexample
-  docker build -t flakeexample:local .
-```
+# Docker Containers
 
-## Run Application Locally
+Docker containers are instantiated from Docker images. A Docker image, defined by a Dockerfile, is a portable executable file that contains everything needed to run a container. It can be shared and distributed like a software binary.  
+The `flakeexample` directory contains the Dockerfile for building the Docker image.
 
-```
-  docker run --rm -it -p 2557:5000 flakeexample:local
-```
+## Build the Docker Image
 
-## Example of request
+### For General Use
 
-```
-  curl -X POST http://127.0.0.1:2557/forecast -H "Content-Type: application/json" -d '{"store_number": 10, "forecast_start_date": "2023-07-01T00:00:00"}' 
-```
-## Push Image to the Azure Container Registry
+If you're using a standard system (non-Apple Silicon):
 
-Before pushing, we have to tag the docker image with the fully qualified name of our Registry
-
-```
-  #docker tag <DOCKER IMAGE> <Container Registry name>.<Resource Group Name>.io/<Image Name on the registry>
-
-  docker tag flakeexample:local aisecr.azurecr.io/flakeexample:v1
+```bash
+cd flakeexample
+docker build -t flakeexample:local .
 ```
 
+If you’re using MacOS with Apple Silicon, you need to specify the linux/amd64 platform during the build:
+```
+cd flakeexample
+docker build --platform=linux/amd64 -t flakeexample:local .
+```
+
+Run the Application Locally
+
+To run the application in a Docker container:
+```
+docker run --rm -it -p 2557:5000 flakeexample:local
+```
+Example Request
+
+To send a request to the running application:
+```
+curl -X POST http://127.0.0.1:2557/forecast -H "Content-Type: application/json" -d '{"store_number": 10, "forecast_start_date": "2023-07-01T00:00:00"}'
+```
+Push the Image to Azure Container Registry
+
+Before pushing the image, we need to tag the Docker image with the fully qualified name of our Azure Container Registry:
+```
+#docker tag <DOCKER IMAGE> <Container Registry name>.<Resource Group Name>.io/<Image Name on the registry>
+
+docker tag flakeexample:local aisecr.azurecr.io/flakeexample:v1
+```
 Push the Image
+
+To push the Docker image to the registry:
 ```
-  docker push <Container Registry name>.<Resource Group Name>.io/<Image Name on the registry>
-  docker push aisecr.azurecr.io/flakeexample:v1
+docker push <Container Registry name>.<Resource Group Name>.io/<Image Name on the registry>
+docker push aisecr.azurecr.io/flakeexample:v1
 ```
 
 Show all the images pushed on the registry
