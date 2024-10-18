@@ -87,6 +87,9 @@ If you’re using MacOS with Apple Silicon, you need to specify the linux/amd64 
 ```
 cd flakeexample
 docker build --platform=linux/amd64 -t flakeexample:local .
+or
+For Specific platform (For example: linux/amd64), use this command:
+docker build --platform=linux/amd64 -t flakeexample:local .
 ```
 
 Run the Application Locally
